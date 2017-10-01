@@ -43,6 +43,28 @@ describe('Main Entry point', function() {
                     done();
                 });
             });
+
+            it("should perfer online", (done) => {
+                testApi.fetch('search?q=javascript', function(err, result) {
+                    demand(result).must.be.a.object();
+                    demand(result.data).must.be.a.string();
+                    demand(result.cache).must.be.false();
+                    done();
+                }, {preferOnline: true});
+            });
+
+            it("should prefer online and work on error", (done) => {
+                testApi.__addToCache("test", true);
+
+                testApi.fetch('test', function(err, result) {
+                    demand(err).must.be.undefined();
+                    demand(result).must.be.a.object();
+                    demand(result.cache).must.be.true();
+                    demand(result.data).must.be.true();     
+                    done();
+                }, {preferOnline: true});
+            });
+
         });
     });
 });
