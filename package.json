@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/froehlichA/apidown/issues"
   },
-  "homepage": "https://github.com/froehlichA/apidown#readme"
+  "homepage": "https://github.com/froehlichA/apidown#readme",
+  "dependencies": {}
 }
