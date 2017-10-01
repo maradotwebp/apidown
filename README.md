@@ -1,4 +1,4 @@
-# apidown
+# apidown [![Build Status](https://travis-ci.org/froehlichA/apidown.svg?branch=master)](https://travis-ci.org/froehlichA/apidown)
 :arrow_double_down: A middleman for APIs. Download, cache, get 100% uptime.
 
 ## History
