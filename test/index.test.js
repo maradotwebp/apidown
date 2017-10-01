@@ -44,7 +44,7 @@ describe('Main Entry point', function() {
                 });
             });
 
-            it("should perfer online", (done) => {
+            it("should prefer online", (done) => {
                 testApi.fetch('search?q=javascript', function(err, result) {
                     demand(result).must.be.a.object();
                     demand(result.data).must.be.a.string();
