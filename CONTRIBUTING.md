@@ -1,9 +1,12 @@
 # Contributing
 If you would like to contribute: Great! That's what this project is for.
 
+First, clone the project with ```git clone https://github.com/froehlichA/apidown.git ```
+
 You can contribute by
 - writing code
     - You can, but must not follow the specification documented in [App.md](APP.md).
+    - Make sure to add new and run existing tests, so that your new code doesn't add errors or bugs. You can run code with ``` npm test ```.
 - adding new ideas, documenting features
 - solving issues
 
