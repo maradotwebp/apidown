@@ -1,29 +1,25 @@
 {
-  "name": "apidown",
-  "version": "0.1.0",
-  "description": "An API middleman for file caching and improving access time performance.",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "node_modules\\.bin\\mocha"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/froehlichA/apidown.git"
-  },
-  "keywords": [
-    "api",
-    "middleman",
-    "downloader"
-  ],
-  "author": "froehlichA",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/froehlichA/apidown/issues"
-  },
-  "homepage": "https://github.com/froehlichA/apidown#readme",
-  "dependencies": {
-    "mocha": "^3.5.3",
-    "must": "^0.13.4",
-    "request": "^2.83.0"
-  }
+    "name": "apidown",
+    "version": "0.1.0",
+    "description": "An API middleman for file caching and improving access time performance.",
+    "main": "lib/index.js",
+    "scripts": {
+        "test": "mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/froehlichA/apidown.git"
+    },
+    "keywords": ["api", "middleman", "downloader"],
+    "author": "froehlichA",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/froehlichA/apidown/issues"
+    },
+    "homepage": "https://github.com/froehlichA/apidown#readme",
+    "dependencies": {
+        "mocha": "^3.5.3",
+        "must": "^0.13.4",
+        "request": "^2.83.0"
+    }
 }
