@@ -1,5 +1,4 @@
 const demand = require('must');
-const expect = require('must');
 
 describe('Main Entry point', function() {
     describe('with no auth', function() {
@@ -25,7 +24,7 @@ describe('Main Entry point', function() {
                 });
             });
 
-            it('should return result when fetch method is called multiple correctly ', function(done) {
+            it('should return result when fetch method is called multiple times', function(done) {
                 testApi.fetch('search?q=javascript', function(err, result) {
                     demand(result).to.be.object();
 
@@ -34,7 +33,7 @@ describe('Main Entry point', function() {
 
                         testApi.fetch('search?q=javascript', function(err, result) {
                             demand(result).to.be.object();
-                            expect(result.fromCache).to.equal(true);
+                            demand(result.fromCache).to.equal(true);
                             done();
                         });
                     });
