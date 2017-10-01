@@ -38,5 +38,6 @@ Other possibilities for apidown could include:
     - for dynamic APIs
 - store the content in a file
 - preload files with an regexp, to make apidown suitable for production
+- check the freshness of the data that is already captured
 
 Further ideas/use-cases will be documented here.
