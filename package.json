@@ -2,9 +2,9 @@
   "name": "apidown",
   "version": "0.1.0",
   "description": "An API middleman for file caching and improving access time performance.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules\\.bin\\mocha"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,8 @@
     "url": "https://github.com/froehlichA/apidown/issues"
   },
   "homepage": "https://github.com/froehlichA/apidown#readme",
-  "dependencies": {}
+  "dependencies": {
+    "mocha": "^3.5.3",
+    "must": "^0.13.4"
+  }
 }
