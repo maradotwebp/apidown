@@ -11,8 +11,7 @@ A programmer would like to use apidown for a static API which requires a key aut
 First, he imports apidown, sets the URL of the API, and includes the api key.
 ```javascript
 const api = require('apidown')
-api
-    .url('www.sample-api.com')
+api('www.sample-api.com')
     .key('MY_API_KEY')
 ```
 
