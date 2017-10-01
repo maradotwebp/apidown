@@ -14,36 +14,33 @@ describe('Main Entry point', function() {
         });
 
         describe(': apiObject', function() {
+            
             it('should have a fetch method', function() {
-                demand(testApi.fetch).must.be.function();
+                demand(testApi.fetch).must.be.a.function();
             });
 
-            it('should return result when fetch method is called correctly simple', function() {
+            it('should return result when fetch method is called correctly', function(done) {
                 testApi.fetch('search?q=javascript', function(err, result) {
-                    demand(result).to.be.object();
+                    demand(result).must.be.a.object();
+                    demand(result.data).must.be.a.string();
+                    done();
                 });
             });
 
-            it('should return result when fetch method is called multiple times', function(done) {
+            it('should return cached result when fetch method is called a second time', function(done) {
                 testApi.fetch('search?q=javascript', function(err, result) {
-                    demand(result).to.be.object();
-
-                    testApi.fetch('search?q=csharp', function(err, result) {
-                        demand(result).to.be.object();
-
-                        testApi.fetch('search?q=javascript', function(err, result) {
-                            demand(result).to.be.object();
-                            demand(result.fromCache).to.equal(true);
-                            done();
-                        });
-                    });
+                    demand(result).must.be.a.object();
+                    demand(result.data).must.be.a.string();
+                    demand(result.cache).must.be.true();
+                    done();
                 });
             });
 
-            it('should callback with error when fetch method is called incorrectly', function() {
+            it('should callback with error when fetch method is called incorrectly', function(done) {
                 testApi.fetch('test', function(err, result) {
-                    demand(err).to.be.error();
-                    demand(result).to.be.undefined();
+                    demand(err).must.be.an.error();
+                    demand(result).must.be.undefined();
+                    done();
                 });
             });
         });
