@@ -7,6 +7,10 @@ You can contribute by
 - writing code
     - You can, but must not follow the specification documented in [App.md](APP.md).
     - Make sure to run tests when adding code, so that your new code doesn't add errors or bugs. You can run code with ``` npm test ```.
+    - Please add inline javascript comments, in order to help other programmers and reviewers.
+        - Add a minimum of one line of description to every function.
+        - Describe a block of difficult-to-understand operations with a one-liner.
+    - Prefix helper functions with "TEST_METHOD".
 - adding new ideas, documenting features
 - solving issues
 
