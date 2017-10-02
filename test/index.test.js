@@ -179,6 +179,22 @@ function runTestsWithApi(testApi) {
 
             testApi.fetch = original;
         });
+
+         it("tests patch", (done) => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("search/1234/bogus/444");
+                demand(config.method).to.equal("PATCH");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.patch("update_search", "search/:id/bogus/:test")
+            testApi.update_search({id: 1234, test: 444}).then(response => {
+                demand(response.test).to.be.true();
+                done();
+            });
+            testApi.fetch = original;
+        });
         
         it("tests creating a resource", () => {
             testApi.resource("users");
@@ -276,6 +292,30 @@ function runTestsWithApi(testApi) {
 
             testApi.fetch = original;
         });
+
+        it("tests rejecting", done => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("/users/1234");
+                demand(config.method).to.equal("PUT");
+                cb(new Error("test"), undefined);
+            };
+            
+            testApi.users.update({id: 1234}).then((resp) => {
+                done(new Error("This shouldn't have been called"));
+            }).catch(e => {
+                demand(e.message).to.equal("test");
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests buildUrl and base url", () => {
+            demand(testApi.users.all.buildUrl()).to.equal("/users");
+            demand(testApi.users.find.buildUrl({id: 123})).to.equal("/users/123");
+            demand(testApi.users.create.buildUrl()).to.equal("/users");
+        })
     });
 
     //Fetch automatically with all four cases.
@@ -307,6 +347,24 @@ function runTestsWithApi(testApi) {
             }, options);
         })
     }
-
-
 }
+
+describe("Test Api utils", () => {
+    const api = require('./../lib/index.js');
+    
+    it("tests buildUrl", () => {
+        demand(api.buildUrl).must.be.a.function();
+        let [url, payload] = api.buildUrl("/test/:id", {id: 1234});
+        demand(url).to.equal("/test/1234");
+        demand(payload).to.be.empty();
+        demand(() => {
+            api.buildUrl("/test/:id/:fail", {id: 1234});
+        }).to.throw();
+
+        [url, payload] = api.buildUrl("/test/:id/:test", {id: 1234, test: "yes", more: true, idk: false});
+
+        demand(url).to.equal("/test/1234/yes");
+        demand(payload).to.eql({more: true, idk: false});
+        
+    });
+})
