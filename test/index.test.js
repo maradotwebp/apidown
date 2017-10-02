@@ -100,8 +100,8 @@ function runTestsWithApi(testApi) {
         });
     })
 
-    describe("With api defining methods", () => {
-        it("tests  defines the endpoint", (done) => {
+    describe("With API method", () => {
+        it('should define an endpoint', (done) => {
             let endpoint = testApi.defineEndpoint("search", "GET");
             demand(endpoint).must.be.a.function();
             endpoint({q: "javascript"}).then((resp) => {
@@ -118,7 +118,7 @@ function runTestsWithApi(testApi) {
             });
         });
 
-        it("tests get", (done) => {
+        it("should 'GET'", (done) => {
             testApi.get("search", "search");
 
             demand(testApi.search).to.be.a.function();
@@ -129,7 +129,7 @@ function runTestsWithApi(testApi) {
             });
         });
 
-        it("tests post", (done) => {
+        it("should 'POST'", (done) => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("search");
@@ -146,7 +146,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests delete", (done) => {
+        it("should 'DELETE'", (done) => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("search/1234");
@@ -163,7 +163,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests put", (done) => {
+        it("should 'PUT'", (done) => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("search/1234/bogus/444");
@@ -180,7 +180,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-         it("tests patch", (done) => {
+         it("should 'PATCH'", (done) => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("search/1234/bogus/444");
@@ -196,7 +196,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
         
-        it("tests creating a resource", () => {
+        it("should create a resource", () => {
             testApi.resource("users");
             demand(testApi.users).to.not.be.undefined();
             demand(testApi.users.find).to.be.a.function();
@@ -212,7 +212,7 @@ function runTestsWithApi(testApi) {
             demand(testApi.users.update.url).to.be.equal("/users/:id");
         });
 
-        it("tests finding of the resource", done => {
+        it("should find a resource endpoint", done => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("/users/1234");
@@ -228,7 +228,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests get all of the resource", done => {
+        it("should get all resource endpoints", done => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("/users");
@@ -244,7 +244,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests creates the resource", done => {
+        it('should create a resource endpoint', done => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("/users");
@@ -261,7 +261,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests deletes the resource", done => {
+        it("should delete the resource endpoint", done => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("/users/1234");
@@ -277,7 +277,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests updates the resource", done => {
+        it("should update a resource endpoint", done => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("/users/1234");
@@ -293,7 +293,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests rejecting", done => {
+        it("should reject", done => {
             let original = testApi.fetch;
             testApi.fetch = (endpoint, cb, config) => {
                 demand(endpoint).to.equal("/users/1234");
@@ -311,7 +311,7 @@ function runTestsWithApi(testApi) {
             testApi.fetch = original;
         });
 
-        it("tests buildUrl and base url", () => {
+        it("should create base- and buildUrl", () => {
             demand(testApi.users.all.buildUrl()).to.equal("/users");
             demand(testApi.users.find.buildUrl({id: 123})).to.equal("/users/123");
             demand(testApi.users.create.buildUrl()).to.equal("/users");
@@ -352,7 +352,7 @@ function runTestsWithApi(testApi) {
 describe("Test Api utils", () => {
     const api = require('./../lib/index.js');
     
-    it("tests buildUrl", () => {
+    it("should create buildurl", () => {
         demand(api.buildUrl).must.be.a.function();
         let [url, payload] = api.buildUrl("/test/:id", {id: 1234});
         demand(url).to.equal("/test/1234");
