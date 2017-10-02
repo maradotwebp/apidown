@@ -3,21 +3,12 @@ const demand = require('must');
 describe('Main Entry point', function () {
     const api = require('./../lib/index.js');
 
+    it('should be a ApiOptions function', function () {
+        demand(api).must.be.a.function();
+    });
+
     describe('with no auth', function () {
         const testApi = api('www.google.com');
-
-        it('should be a ApiOptions function', function () {
-            demand(api).must.be.a.function();
-        });
-
-        it('should return an ApiObject', function () {
-            demand(testApi).must.be.a.object();
-        });
-
-        it('should have a fetch method', function () {
-            demand(testApi.fetch).must.be.a.function();
-        });
-
         runTestsWithApi(testApi);
     });
 });
@@ -27,6 +18,15 @@ function runTestsWithApi(testApi) {
     beforeEach(function () {
         testApi.__clearCache();
     })
+
+    it('should return an ApiObject', function () {
+        demand(testApi).must.be.a.object();
+    });
+
+    it('should have a fetch method', function () {
+        demand(testApi.fetch).must.be.a.function();
+    });
+
 
     describe('with Options: {}', function () {
         dynamicFetch({}, {
