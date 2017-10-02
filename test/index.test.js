@@ -76,7 +76,7 @@ function runTestsWithApi(testApi) {
         });
     })
 
-    //Fetch automatically with options, for normal, cached, and error
+    //Fetch automatically with all four cases.
     function dynamicFetch(options, callbacks) {
         it("should callback when fetching (website available)", function(done) {
             testApi.fetch('search?q=javascript', function (err, result) {
