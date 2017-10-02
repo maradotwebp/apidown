@@ -6,6 +6,11 @@ This application is beginner-friendly, and made for [Hacktoberfest 2017](https:/
 
 If you would like to contribute, follow [Contributing.md](CONTRIBUTING.md).
 
+## Technical Notice
+
+### Automatic JSON Parser
+
+You can set `options.parseJson` to `true` in order to automatically parse return body as JSON object. In case your input endpoint does't capable to return JSON format, the underlying system will handle error case and normally return error.
 
 ## About
 With V1.0, this application should:
