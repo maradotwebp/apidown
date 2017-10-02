@@ -21,6 +21,30 @@ api.fetch('/users', function(err, result) {
     console.log(result)
 })
 ```
+The user should also be able to define preexsiting urls and have a method that corresponds to the request. These methods should use promises as well. For example: 
+```javascript
+api.get("users", "/users")
+    .get("single_user", "/users/:id");
+    .post("create_user", "/users");
+```
+Would result in 
+```javascript
+api.users(); //sends a get request to /users
+api.single_user({id: 1234}); //sends a get request to /users/1234
+api.create_user({...}) //sends a post to create a user at /users
+```
+To simplify the process, users should also be able to call a `resource` method.
+```javascript
+api.resource("users");
+```
+results in
+```javascript
+api.users.getAll(); //send GET to /users
+api.users.get({id: 1234}); //sends a GET request to /users/1234
+api.users.update({id: 1234, ...}); //sends a PUT request to /users/1234
+api.users.create({...}); //sends a POST request to /users
+api.users.delete({id: 1234}); //sends a DELETE request to /users/1234
+```
 Apidown should now:
 - check if www.sample-api.com/users is up
 - check if content from website has already been downloaded
