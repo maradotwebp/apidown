@@ -6,17 +6,44 @@ This application is beginner-friendly, and made for [Hacktoberfest 2017](https:/
 
 If you would like to contribute, follow [Contributing.md](CONTRIBUTING.md).
 
-## Technical Notice
+## Documentation
+You can register an api with the following commands:
+```javascript
+const api = require('apimust');
+const testapi = api.url('www.sample-api.com') //Root url of the api
+testapi
+    .withPassword('CLEAN_TEXT_PASSWORD') //Add password auth
+    .withHeaders({ 'User-Agent': 'mozilla' }) //Custom http headers
+```
+Then, you can use apimust to fetch data from the server, and automatically cache data in the process.
+```javascript
+//Fetches the body of www.sample-api.com/users, and saves the data in the cache.
+testapi.fetch('/users', function(err, result) {
+    if(err) console.log(err);
+    if(result) console.log(result);
+})
 
-### Automatic JSON Parser
+You can set `options.parseJson` to `true` in order to automatically parse return body as JSON object.  
+In case your input endpoint does't capable to return JSON format, the underlying system will handle error case and normally return error.
 
-You can set `options.parseJson` to `true` in order to automatically parse return body as JSON object. In case your input endpoint does't capable to return JSON format, the underlying system will handle error case and normally return error.
+//Using fetch on the same endpoint will fetch from cache now, and load much faster on slow connections.
+testapi.fetch('/users', function(err, result) {
+    if(err) console.log(err);
+    if(result) console.log(result);
+})
+```
 
-## About
-With V1.0, this application should:
+You can also integrate options into the ```fetch``` method:
+```javascript
+const options = {
+    preferOnline: true //Will try to fetch online first, and resort to cache as a fallback
+    headers: {
+        'User-Agent': 'mozilla' //Will add custom headers
+    }
+}
 
-- parse a regexp URL input
-- download the files from the URLs specified
-- provide an interface for the URLs, like an REST API
-
-For more information about how the app should work out, check out [App.md](APP.md).
+testapi.fetch('/users', function(err, result) {
+    if(err) console.log(err);
+    if(result) console.log(result);
+}, options)
+```
