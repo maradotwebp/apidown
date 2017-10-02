@@ -13,12 +13,12 @@ describe('Main Entry point', function () {
       });
 
       describe('with api key', function () {
-
-          const testApi = api('www.google.com');
-          const API_KEY = 'test'
+          const URL = 'https://maps.googleapis.com/maps/api/geocode/'
+          const testApi = api(URL);
+          const API_KEY = 'YOUR_KEY'
 
           testApi.password(API_KEY)
-            console.log(testApi);
+
           describe('password', function () {
               it('should enable authentication', function () {
                 demand(testApi.defaultOptions.authentication.enabled).must.be.truthy()
@@ -29,8 +29,16 @@ describe('Main Entry point', function () {
               });
             })
 
-            runTestsWithApi(testApi);
-          });
+            it("should callback when fetching", function (done) {
+              testApi.fetch('json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA', function (err, result) {
+                // Google Maps do not return any error status code if the API key is wrong,
+                // they create a custom message in the data field
+                const res = JSON.parse(result.data)
+                demand(res.error_message).must.be.undefined();
+                done()
+              }, {});
+            })
+          })
       });
 
     //Runs all tests with specified API.
