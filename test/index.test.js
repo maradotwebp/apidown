@@ -100,6 +100,184 @@ function runTestsWithApi(testApi) {
         });
     })
 
+    describe("With api defining methods", () => {
+        it("tests  defines the endpoint", (done) => {
+            let endpoint = testApi.defineEndpoint("search", "GET");
+            demand(endpoint).must.be.a.function();
+            endpoint({q: "javascript"}).then((resp) => {
+                demand(resp).must.be.a.object();
+                demand(resp.cache).must.be.false();
+            });
+
+            endpoint({q: "html"}).then((resp) => {
+                demand(resp).must.be.a.object();
+                demand(resp.cache).must.be.false();
+                done();
+            }).catch(e => {
+                console.log(e);
+            });
+        });
+
+        it("tests get", (done) => {
+            testApi.get("search", "search");
+
+            demand(testApi.search).to.be.a.function();
+            testApi.search({q: "javascript"}).then((resp) => {
+                demand(resp).must.be.a.object();
+                demand(resp.cache).must.be.false();
+                done();
+            });
+        });
+
+        it("tests post", (done) => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("search");
+                demand(config.method).to.equal("POST");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.post("create_search", "search")
+            testApi.create_search({id: 1234}).then(response => {
+                demand(response.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests delete", (done) => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("search/1234");
+                demand(config.method).to.equal("DELETE");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.delete("create_search", "search/:id")
+            testApi.create_search({id: 1234}).then(response => {
+                demand(response.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests put", (done) => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("search/1234/bogus/444");
+                demand(config.method).to.equal("PUT");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.put("update_search", "search/:id/bogus/:test")
+            testApi.update_search({id: 1234, test: 444}).then(response => {
+                demand(response.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+        
+        it("tests creating a resource", () => {
+            testApi.resource("users");
+            demand(testApi.users).to.not.be.undefined();
+            demand(testApi.users.find).to.be.a.function();
+            demand(testApi.users.all).to.be.a.function();
+            demand(testApi.users.create).to.be.a.function();
+            demand(testApi.users.delete).to.be.a.function();
+            demand(testApi.users.update).to.be.a.function();
+            
+            demand(testApi.users.find.url).to.be.equal("/users/:id");
+            demand(testApi.users.all.url).to.be.equal("/users");
+            demand(testApi.users.create.url).to.be.equal("/users");
+            demand(testApi.users.delete.url).to.be.equal("/users/:id");
+            demand(testApi.users.update.url).to.be.equal("/users/:id");
+        });
+
+        it("tests finding of the resource", done => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("/users/1234");
+                demand(config.method).to.equal("GET");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.users.find({id: 1234}).then((resp) => {
+                demand(resp.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests get all of the resource", done => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("/users");
+                demand(config.method).to.equal("GET");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.users.all().then((resp) => {
+                demand(resp.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests creates the resource", done => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("/users");
+                demand(config.method).to.equal("POST");
+                demand(config.body).to.equal("yessss");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.users.create("yessss").then((resp) => {
+                demand(resp.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests deletes the resource", done => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("/users/1234");
+                demand(config.method).to.equal("DELETE");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.users.delete({id: 1234}).then((resp) => {
+                demand(resp.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+
+        it("tests updates the resource", done => {
+            let original = testApi.fetch;
+            testApi.fetch = (endpoint, cb, config) => {
+                demand(endpoint).to.equal("/users/1234");
+                demand(config.method).to.equal("PUT");
+                cb(undefined, {test: true});
+            };
+            
+            testApi.users.update({id: 1234}).then((resp) => {
+                demand(resp.test).to.be.true();
+                done();
+            });
+
+            testApi.fetch = original;
+        });
+    });
+
     //Fetch automatically with all four cases.
     function dynamicFetch(options, callbacks) {
         it("should callback when fetching (website available)", function (done) {
@@ -129,4 +307,6 @@ function runTestsWithApi(testApi) {
             }, options);
         })
     }
+
+
 }
