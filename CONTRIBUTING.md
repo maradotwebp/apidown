@@ -1,26 +1,39 @@
 # Contributing
 If you would like to contribute: Great! That's what this project is for.
 
-First, clone the project with ```git clone https://github.com/froehlichA/apidown.git ```
+First, clone the project with ```git clone https://github.com/froehlichA/apidown.git ```.
+Please make sure to run all tests before submitting with ```npm test```.
 
 You can contribute by
-- writing code
-    - You can, but must not follow the specification documented in [App.md](APP.md).
-    - Make sure to run tests when adding code, so that your new code doesn't add errors or bugs. You can run code with ``` npm test ```.
-    - Please add inline javascript comments, in order to help other programmers and reviewers.
-    - Prefix helper functions with "TEST_METHOD".
-- adding new ideas, documenting features
 - solving issues
+- adding new ideas
+- adding documentation
 
-## Pull Requests
+## Solving issues
+Regardless if you are writing code or documentation, please state that you are currently working on the issue.
 
-In all cases, you will have to submit a pull request to this project.
+### Writing Code
+When writing code, first check existing code for general guidelines.
+- we are currently using callbacks instead of promises, although that could change in the near future.
+- Remember to add unit tests. If you have been working on ```[file]```, write your tests into ```[file].index.js```. Pull requests without added unit tests will not be accepted.
+- If you have added a new feature, document it immediately, or attach the label "documentation needed" to your issue.
 
-Please include in your pull request:
-- what you have done (coding, documentation)
-- if you have solved an issue:
-    - Issue number
+### Writing documentation
+Make sure that the feature you are trying is document isn't already documented, and place your docs in the right file:
+- General documentation in the README.md file.
+- Info about contributing to the project in the CONTRIBUTING.md file.
+- Info about the app itself and app functions and method in the 'Documentation' Section of the README.md file.
 
-To "complete" Hacktoberfest, four pull requests of yours must be merged.
+## Adding new ideas
+Before adding your idea, check if
+- it is already present in code
+- it is already present as an issue
 
-Spammy pull requests will not be merged, and will be deleted.
+If you found nothing, create a new issue describing:
+- What idea you have, as the description.
+- A summary of your idea, as the title.
+
+Then, please refer to 'Writing code'.
+
+## Adding documentation
+Refer to 'Adding new ideas' and 'Writing documentation'.
