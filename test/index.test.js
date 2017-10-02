@@ -30,21 +30,21 @@ function runTestsWithApi(testApi) {
 
     describe('with Options: {}', function () {
         dynamicFetch({}, {
-            cb: (done, err, result) => {
+            cb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.false();
                 demand(result.data).must.be.truthy();
             },
-            noWebCb: (done, err, result) => {
+            noWebCb: (err, result) => {
                 demand(err).must.be.error();
                 demand(result).must.be.undefined();
             },
-            cacheCb: (done, err, result) => {
+            cacheCb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.true();
                 demand(result.data).must.be.truthy();
             },
-            cacheNoWebCb: (done, err, result) => {
+            cacheNoWebCb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.true();
                 demand(result.data).must.be.truthy();
@@ -54,21 +54,21 @@ function runTestsWithApi(testApi) {
 
     describe('with Options: { preferOnline: true }', function () {
         dynamicFetch({ preferOnline: true }, {
-            cb: (done, err, result) => {
+            cb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.false();
                 demand(result.data).must.be.truthy();
             },
-            noWebCb: (done, err, result) => {
+            noWebCb: (err, result) => {
                 demand(err).must.be.error();
                 demand(result).must.be.undefined();
             },
-            cacheCb: (done, err, result) => {
+            cacheCb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.false();
                 demand(result.data).must.be.truthy();
             },
-            cacheNoWebCb: (done, err, result) => {
+            cacheNoWebCb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.true();
                 demand(result.data).must.be.truthy();
@@ -78,21 +78,21 @@ function runTestsWithApi(testApi) {
 
     describe('with Options: { headers: { "User-Agent": "request" } }', function () {
         dynamicFetch({ headers: { 'User-Agent': 'request' } }, {
-            cb: (done, err, result) => {
+            cb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.false();
                 demand(result.data).must.be.truthy();
             },
-            noWebCb: (done, err, result) => {
+            noWebCb: (err, result) => {
                 demand(err).must.be.error();
                 demand(result).must.be.undefined();
             },
-            cacheCb: (done, err, result) => {
+            cacheCb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.true();
                 demand(result.data).must.be.truthy();
             },
-            cacheNoWebCb: (done, err, result) => {
+            cacheNoWebCb: (err, result) => {
                 demand(err).must.be.undefined();
                 demand(result.cache).must.be.true();
                 demand(result.data).must.be.truthy();
@@ -104,27 +104,27 @@ function runTestsWithApi(testApi) {
     function dynamicFetch(options, callbacks) {
         it("should callback when fetching (website available)", function (done) {
             testApi.fetch('search?q=javascript', function (err, result) {
-                callbacks.cb(done, err, result);
+                callbacks.cb(err, result);
                 done();
             }, options);
         })
         it("should callback with error when fetching (website not available)", function (done) {
             testApi.fetch('test', function (err, result) {
-                callbacks.noWebCb(done, err, result);
+                callbacks.noWebCb(err, result);
                 done();
             }, options)
         })
         it("should callback when fetching cached result (website available)", function (done) {
             testApi.__addToCache('search?q=javascript', true);
             testApi.fetch('search?q=javascript', function (err, result) {
-                callbacks.cacheCb(done, err, result);
+                callbacks.cacheCb(err, result);
                 done();
             }, options);
         })
         it("should callback when fetching cached result (website not available)", function (done) {
             testApi.__addToCache('test', true);
             testApi.fetch('test', function (err, result) {
-                callbacks.cacheNoWebCb(done, err, result);
+                callbacks.cacheNoWebCb(err, result);
                 done();
             }, options);
         })
