@@ -76,28 +76,52 @@ function runTestsWithApi(testApi) {
         });
     })
 
+    describe('with Options: { headers: { "User-Agent": "request" } }', function () {
+        dynamicFetch({ headers: { 'User-Agent': 'request' } }, {
+            cb: (done, err, result) => {
+                demand(err).must.be.undefined();
+                demand(result.cache).must.be.false();
+                demand(result.data).must.be.truthy();
+            },
+            noWebCb: (done, err, result) => {
+                demand(err).must.be.error();
+                demand(result).must.be.undefined();
+            },
+            cacheCb: (done, err, result) => {
+                demand(err).must.be.undefined();
+                demand(result.cache).must.be.true();
+                demand(result.data).must.be.truthy();
+            },
+            cacheNoWebCb: (done, err, result) => {
+                demand(err).must.be.undefined();
+                demand(result.cache).must.be.true();
+                demand(result.data).must.be.truthy();
+            },
+        });
+    })
+
     //Fetch automatically with all four cases.
     function dynamicFetch(options, callbacks) {
-        it("should callback when fetching (website available)", function(done) {
+        it("should callback when fetching (website available)", function (done) {
             testApi.fetch('search?q=javascript', function (err, result) {
                 callbacks.cb(done, err, result);
                 done();
             }, options);
         })
-        it("should callback with error when fetching (website not available)", function(done) {
-            testApi.fetch('test', function(err, result) {
+        it("should callback with error when fetching (website not available)", function (done) {
+            testApi.fetch('test', function (err, result) {
                 callbacks.noWebCb(done, err, result);
                 done();
             }, options)
         })
-        it("should callback when fetching cached result (website available)", function(done) {
+        it("should callback when fetching cached result (website available)", function (done) {
             testApi.__addToCache('search?q=javascript', true);
             testApi.fetch('search?q=javascript', function (err, result) {
                 callbacks.cacheCb(done, err, result);
                 done();
             }, options);
         })
-        it("should callback when fetching cached result (website not available)", function(done) {
+        it("should callback when fetching cached result (website not available)", function (done) {
             testApi.__addToCache('test', true);
             testApi.fetch('test', function (err, result) {
                 callbacks.cacheNoWebCb(done, err, result);
