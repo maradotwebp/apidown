@@ -264,7 +264,7 @@ function methodTests(testApi){
 }
 
 
-// Run all tests
+// Run options tests
 function runTestsWithApi(testApi, availableUrl, unavailableUrl, endPointJsonReturnCapable = false) {
 
     beforeEach(function () {
