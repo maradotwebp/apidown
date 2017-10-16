@@ -1,6 +1,6 @@
 {
   "name": "apidown",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An API middleman for file caching and improving access time performance.",
   "main": "lib/index.js",
   "scripts": {
