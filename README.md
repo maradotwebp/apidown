@@ -22,7 +22,13 @@ testapi.fetch('/users', function(err, result) {
     if(err) console.log(err);
     if(result) console.log(result);
 })
+```
 
+You can set `options.parseJson` to `true` in order to automatically parse return body as JSON object.  
+
+In case your input endpoint doesnt capable to return JSON format, the underlying system will handle error case and normally return error.
+
+```javascript
 //Using fetch on the same endpoint will fetch from cache now, and load much faster on slow connections.
 testapi.fetch('/users', function(err, result) {
     if(err) console.log(err);
